@@ -2,10 +2,10 @@ CREATE TABLE FT_ORDER
 (
   先行区分 VARCHAR2(5 BYTE) 
 , 受注計画番号 VARCHAR2(10 BYTE) 
-, オーダ識別区分 VARCHAR2(1 BYTE) 
-, 受注番号 VARCHAR2(10 BYTE) 
-, 明細番号 VARCHAR2(3 BYTE) 
-, 明細枝番 VARCHAR2(3 BYTE) 
+, オーダ識別区分 VARCHAR2(1 BYTE) NOT NULL 
+, 受注番号 VARCHAR2(10 BYTE) NOT NULL 
+, 明細番号 VARCHAR2(3 BYTE) NOT NULL 
+, 明細枝番 VARCHAR2(3 BYTE) NOT NULL 
 , 受注本部コード VARCHAR2(3 BYTE) 
 , 受注事業部コード VARCHAR2(3 BYTE) 
 , 受注部コード VARCHAR2(3 BYTE) 
@@ -94,6 +94,33 @@ CREATE TABLE FT_ORDER
 , 売上分析項目コード10 VARCHAR2(3 BYTE) 
 , 売上分析項目名10 VARCHAR2(30 BYTE) 
 , 金額後報 VARCHAR2(3 BYTE) 
+, CONSTRAINT PK_ORDER PRIMARY KEY 
+  (
+    オーダ識別区分 
+  , 受注番号 
+  , 明細番号 
+  , 明細枝番 
+  )
+  USING INDEX 
+  (
+      CREATE UNIQUE INDEX PK_ORDER ON FT_ORDER (オーダ識別区分 ASC, 受注番号 ASC, 明細番号 ASC, 明細枝番 ASC) 
+      LOGGING 
+      TABLESPACE SYSTEM 
+      PCTFREE 10 
+      INITRANS 2 
+      STORAGE 
+      ( 
+        INITIAL 65536 
+        NEXT 1048576 
+        MINEXTENTS 1 
+        MAXEXTENTS UNLIMITED 
+        FREELISTS 1 
+        FREELIST GROUPS 1 
+        BUFFER_POOL DEFAULT 
+      ) 
+      NOPARALLEL 
+  )
+  ENABLE 
 ) 
 LOGGING 
 TABLESPACE SYSTEM 
